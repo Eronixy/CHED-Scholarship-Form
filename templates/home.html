@@ -1,0 +1,46 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Homepage</title>
+  <link rel="stylesheet" href="{% static 'home_styles.css' %}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+  <header id="header">
+    <div id="logo-container">
+      <img id="header-img" src="{% static 'images/logo.png' %}" alt="CHED Ambassadors" class="logo">
+      <h1 class="title">Isko Ni Kapitan</h1>
+    </div>
+    <nav id="nav-bar">
+      <ul>
+        <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+        <li><a href="{% url 'programs' %}" class="nav-link">Our Programs</a></li>
+        <li><a href="{% url 'about' %}" class="nav-link">About Us</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="container">
+    <aside class="login">
+      <h2>Login</h2>
+      <form action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+        <label for="username">Email:</label> 
+        <input type="email" id="username" name="username" required> 
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Login</button>
+      </form>
+      <div class="register">
+      <a href="{% url 'register' %}">
+        <button type="button">Register</button>
+      </a>
+      <h3>Aspiring Isko? Register now!</h3>
+    </div>
+    </aside>
+  </div>
+</body>
+</html>

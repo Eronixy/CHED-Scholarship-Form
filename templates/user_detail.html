@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Detail</title>
+</head>
+<body>
+    <h1>{{ user.username }}</h1>
+    <p>Email: {{ user.email }}</p>
+    <p>Password: {{ user.password }}</p>
+    <a href="{% url 'user_update' user.pk %}">Edit</a>
+    <form method="post" action="{% url 'user_delete' user.pk %}">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+    </form>
+    <a href="{% url 'user_list' %}">Back to list</a>
+</body>
+</html>

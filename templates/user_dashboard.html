@@ -1,0 +1,49 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Homepage</title>
+  <link rel="stylesheet" href="{% static 'home_styles.css' %}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+  <header id="header">
+    <div id="logo-container">
+      <img id="header-img" src="{% static 'images/logo.png' %}" alt="CHED Ambassadors" class="logo">
+      <h1 class="title">Isko Ni Kapitan</h1>
+    </div>
+    <nav id="nav-bar">
+      <ul>
+        <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+        <li><a href="{% url 'programs' %}" class="nav-link">Our Programs</a></li>
+        <li><a href="{% url 'about' %}" class="nav-link">About Us</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="container">
+    <div class="login">
+      <h2>Welcome, {{ username }}</h2>
+      <h3>Today is: <span id="datetime"></span></h3>
+      <a href="{% url 'logout' %}">
+        <button type="button">Logout</button>
+      </a>
+    </div>
+  </div>
+  <script>
+    function updateDateTime() {
+      const now = new Date();
+      const options = { 
+        weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', 
+        hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' 
+      };
+      document.getElementById('datetime').textContent = now.toLocaleString('en-US', options);
+    }
+
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Homepage</title>
+  <link rel="stylesheet" href="{% static 'admin_dashboard.css' %}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+  <header id="header">
+    <div id="logo-container">
+      <img id="header-img" src="{% static 'images/logo.png' %}" alt="CHED Ambassadors" class="logo">
+      <h1 class="title">Isko Ni Kapitan</h1>
+    </div>
+    <nav id="nav-bar">
+      <ul>
+        <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+        <li><a href="{% url 'programs' %}" class="nav-link">Our Programs</a></li>
+        <li><a href="{% url 'about' %}" class="nav-link">About Us</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="container">
+    <h2>Run SQL Query</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Run Query</button>
+    </form>
+  {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+        <div class="message {{ message.tags }}">
+          {{ message.tags|capfirst }}: {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+    {% if result %}
+    <div class="table">
+        <h3>Query Result:</h3>
+        <table border="2">
+          <thead>
+            <tr>
+              {% for col in columns %}
+                <th>{{ col }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in result %}
+              <tr>
+                {% for col in row %}
+                  <td>{{ col }}</td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+    {% endif %}
+    </div>
+  </div>
+  <script>
+  </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Homepage</title>
+  <link rel="stylesheet" href="{% static 'admin_dashboard.css' %}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+  <header id="header">
+    <div id="logo-container">
+      <img id="header-img" src="{% static 'images/logo.png' %}" alt="CHED Ambassadors" class="logo">
+      <h1 class="title">Isko Ni Kapitan</h1>
+    </div>
+    <nav id="nav-bar">
+      <ul>
+        <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+        <li><a href="{% url 'programs' %}" class="nav-link">Our Programs</a></li>
+        <li><a href="{% url 'about' %}" class="nav-link">About Us</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="container">
+    <aside class="login">
+        <p>In a land where education was a cherished gift, four heroes—Irron, Cristel, Charles, and Jezrielle—set out on a noble quest to distribute CHED scholarships to deserving students. Chosen by the Council of Wisdom, they carried a chest filled with these precious scholarships, aiming to transform lives and brighten futures.
+
+            Their journey began in the mountainous region of Sciencium, where Irron’s strength was tested as they climbed steep trails to reach young scholars. Cristel’s wisdom guided the distribution of scholarships to those passionate about discovery. From there, they ventured into the mystical forests of Artisia, where Charles uncovered hidden paths and Jezrielle’s songs attracted artists, ensuring scholarships went to those with boundless creativity.
+            
+            Next, they traveled to the plains of Technoria, navigating fields of wind turbines and solar panels. Irron’s shield protected them, while Cristel powered devices with her magic. Charles ingeniously distributed scholarships to budding engineers and programmers, fostering innovation. Their final destination was the coastal city of Humanica, where Jezrielle’s music united the community, and Irron, Cristel, and Charles identified future leaders and social advocates to receive the scholarships.
+            
+            After months of travel, the heroes returned to Academea. The Council of Wisdom praised their efforts and the positive impact they had made across the land. Irron, Cristel, Charles, and Jezrielle had not only distributed scholarships but also inspired hope and determination in countless students.
+            
+            The realm flourished, with knowledge spreading like wildfire, creativity blossoming, and innovation soaring. The legacy of the CHED scholarships endured, a testament to the power of education and the enduring spirit of the four heroes dedicated to their noble cause.</p>
+    </aside>
+  </div>
+</body>
+</html>

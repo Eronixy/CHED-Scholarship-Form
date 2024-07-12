@@ -1,0 +1,56 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'register_styles.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <body>
+    <header id="header">
+      <div id="logo-container">
+        <img id="header-img" src="{% static 'images/logo.png' %}" alt="CHED Ambassadors" class="logo">
+        <h1 class="title">Isko Ni Kapitan</h1>
+        </div>
+      <nav id="nav-bar">
+        <ul>
+          <a href="{% url 'home' %}" class="nav-link">
+            <li>Home</li>
+          </a>
+          <a href="{% url 'programs' %}" class="nav-link">
+            <li>Our Programs</li>
+          </a>
+          <a href="{% url 'about' %}" class="nav-link">
+            <li>About Us</li>
+          </a>
+        </ul>
+      </nav>
+    </header>
+    <div class="container">
+      <aside class="login">
+        <h2>Register</h2>
+        <form method="POST" action="{% url 'register' %}">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="form-group">
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+              {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+              {% endif %}
+              {% for error in field.errors %}
+                <div class="error">{{ error }}</div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+          <button type="submit">Submit</button>
+        </form>
+      </aside>
+    </div>
+  </body>
+</html>

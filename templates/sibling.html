@@ -1,0 +1,66 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Applicant Details</title>
+    <link rel="stylesheet" href="{% static 'applicant.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <body>
+    <header id="header">
+      <div id="logo-container">
+        <img id="header-img" src="{% static 'images/logo.png' %}" alt="CHED Ambassadors" class="logo">
+        <h1 class="title">Isko Ni Kapitan</h1>
+      </div>
+      <nav id="nav-bar">
+        <ul>
+          <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+          <li><a href="{% url 'programs' %}" class="nav-link">Our Programs</a></li>
+          <li><a href="{% url 'about' %}" class="nav-link">About Us</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="container">
+      <form method="POST" id="sibling-form" action="{% url 'sibling' %}">
+        {% csrf_token %}
+        <div class="form-section" style="display:inline;">
+          <h2>Fill up the following information to continue.</h2>
+          <div class="sibling-container">
+            {{ sibling_formset.management_form }}
+            <div id="sibling-formset-container">
+              {% for form in sibling_formset %}
+                <div class="form-group sibling-form">
+                  {{ form.as_p }}
+                </div>
+              {% endfor %}
+            </div>
+            <button type="button" id="add-sibling">Add sibling</button>
+          </div>
+        </div>
+        <button type="submit">Next</button>
+      </form>
+    </div>
+
+    <div id="empty-form" style="display: none;">
+        <div class="form-group sibling-form">
+            {{ sibling_formset.empty_form.as_p }}
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('#add-sibling').click(function() {
+          var form_idx = $('#id_form-TOTAL_FORMS').val();
+          var empty_form_html = $('#empty-form').html().replace(/__prefix__/g, form_idx);
+          $('#sibling-formset-container').append(empty_form_html);
+          $('#id_form-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+        });
+      });
+    </script>
+  </body>
+</html>
