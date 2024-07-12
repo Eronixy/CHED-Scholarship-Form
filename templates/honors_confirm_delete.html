@@ -1,14 +1,33 @@
 {% load static %}
-{% load crispy_forms_tags %}
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Form</title>
+    <title>Honors Delete</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <style>
         #header-img {
             max-width: 50px;
+        }
+        .max-height {
+            max-height: 70vh;
+            overflow: auto;
+        }
+        ::-webkit-scrollbar {
+          width: 10px;
+          height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+          background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background: #888;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+          background: #555;
         }
     </style>
 </head>
@@ -43,23 +62,40 @@
     </nav>
 </header>
 <body class="bg-light ">
-    <div class="container p-5 mx-auto mb-5">
-        <h1>User Form</h1>
-        <form method="POST">
-            {% csrf_token %}
-            {{form|crispy}}
-            <div class="mt-3">
-                <button type="submit" class="btn btn-primary btn-block text-lg">Save</button>
-            </div>
-        </form>
-        <a href="{% url 'user_list' %}" class="text-lg text-center">
-            <h6 class="mt-2">Back to List</h6>
-        </a>
+<div class="container bg-dark p-5 my-5 mx-auto rounded shadow-sm">
+    <h1 class="text-white text-center">Are you sure you want to delete the following entry?</h1>
+    <div class="table-responsive max-height rounded">
+        <div class="table-responsive max-height rounded">
+            <table class="table table-primary table-striped table-bordered w-100">
+            <thead>
+                <tr>
+                    <th>Honors ID</th>
+                    <th>Honors Received</th>
+                    <th>Honors School</th>
+                    <th>Honors Date</th>
+                    <th>Applicant ID</th>
+                </tr>
+            </thead>
+            <tbody id="applicantTableBody">
+                    <tr>
+                        <td>{{ honor.honors_id }}</td>
+                        <td>{{ honor.honors_received }}</td>
+                        <td>{{ honor.honors_school }}</td>
+                        <td>{{ honor.honors_date }}</td>
+                        <td>{{ honor.applicant_id }}</td>
+                    </tr>
+            </tbody>
+        </table>
     </div>
+        <div class="d-flex justify-content-center mt-3">
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn-lg btn-danger text-center">Confirm</button>
+                <a href="{% url 'honors_list' %}"><button type="button" class="btn-lg btn-primary mx-auto">Cancel</button></a>
+            </form>
+        </div>
+      </div>
+</div>
 </body>
 </html>
-
-
-
-
 

@@ -43,9 +43,6 @@ class CustomUserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     email = models.EmailField(_('email address'), unique=True)
-    first_name = models.CharField(_('first name'), max_length=30, blank=True)
-    last_name = models.CharField(_('last name'), max_length=30, blank=True)
-    is_active = models.BooleanField(_('active'), default=True)
     is_staff = models.BooleanField(_('staff status'), default=False)
     is_superuser = models.BooleanField(_('superuser status'), default=False)
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
@@ -76,7 +73,7 @@ class Applicant(models.Model):
     highschool_name = models.CharField(max_length=45)
     highschool_address = models.CharField(max_length=100)
     highest_year = models.CharField(max_length=10, validators=[validate_highest_year])
-    gwa = models.DecimalField(max_digits=2, decimal_places=2)
+    gwa = models.DecimalField(max_digits=4, decimal_places=2)
     graduation_date = models.DateField()
     father_status = models.CharField(max_length=1, validators=[validate_parent_status])
     father_name = models.CharField(max_length=80)

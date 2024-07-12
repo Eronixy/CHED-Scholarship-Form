@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Form</title>
+    <title>Siblings Form</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <style>
         #header-img {
@@ -44,7 +44,7 @@
 </header>
 <body class="bg-light ">
     <div class="container p-5 mx-auto mb-5">
-        <h1>User Form</h1>
+        <h1>Siblings Form</h1>
         <form method="POST">
             {% csrf_token %}
             {{form|crispy}}
@@ -52,7 +52,7 @@
                 <button type="submit" class="btn btn-primary btn-block text-lg">Save</button>
             </div>
         </form>
-        <a href="{% url 'user_list' %}" class="text-lg text-center">
+        <a href="{% url 'siblings_list' %}" class="text-lg text-center">
             <h6 class="mt-2">Back to List</h6>
         </a>
     </div>

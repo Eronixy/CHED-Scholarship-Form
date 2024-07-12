@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.forms import formset_factory
 from django.contrib import messages
 from .forms import ( 
-    UserRegisterForm, UserLoginForm, SQLQueryForm, HonorsFormSet, SiblingFormSet, ApplicantForm, SiblingForm, HonorsForm
+    UserRegisterForm, UserLoginForm, SQLQueryForm, HonorsFormSet, SiblingsFormSet, ApplicantForm, SiblingsForm, HonorsForm, UserForm
     )
 from django.utils import timezone
 from .models import User, Applicant, Honors, Siblings
@@ -45,9 +45,9 @@ def honors(request):
             for form in honors_formset:
                 if form.cleaned_data: 
                     honors = form.save(commit=False)
-                    honors.applicant = request.user.applicantdetails
+                    honors.applicant = request.user.applicant
                     honors.save()
-            return redirect('sibling')
+            return redirect('siblings')
         else:
             print("Honors formset errors:", honors_formset.errors)
     else:
@@ -57,24 +57,24 @@ def honors(request):
         'honors_formset': honors_formset,
     })
 
-def sibling(request):
+def siblings(request):
     if request.method == 'POST':
-        sibling_formset = SiblingFormSet(request.POST, queryset=Sibling.objects.none())
+        siblings_formset = SiblingsFormSet(request.POST, queryset=Siblings.objects.none())
         
-        if sibling_formset.is_valid():
-            for form in sibling_formset:
+        if siblings_formset.is_valid():
+            for form in siblings_formset:
                 if form.cleaned_data: 
-                    sibling = form.save(commit=False)
-                    sibling.applicant = request.user.applicantdetails
-                    sibling.save()
+                    siblings = form.save(commit=False)
+                    siblings.applicant = request.user.applicant
+                    siblings.save()
             return redirect('user_dashboard')
         else:
-            print("Sibling formset errors:", sibling_formset.errors)
+            print("Siblings formset errors:", siblings_formset.errors)
     else:
-        sibling_formset = SiblingFormSet(queryset=Sibling.objects.none())
+        siblings_formset = SiblingsFormSet(queryset=Siblings.objects.none())
 
-    return render(request, 'sibling.html', {
-        'sibling_formset': sibling_formset,
+    return render(request, 'siblings.html', {
+        'siblings_formset': siblings_formset,
     })
 
 def register(request):
@@ -124,7 +124,7 @@ def user_dashboard(request):
         return redirect('admin_dashboard')
     else:
         try:
-            applicant_details = request.user.applicantdetails
+            applicant_details = request.user.applicant
             return render(request, 'user_dashboard.html')
         except Applicant.DoesNotExist:
             return redirect('applicant')
@@ -190,43 +190,32 @@ def user_delete(request, pk):
         return redirect('user_list')
     return render(request, 'user_confirm_delete.html', {'user': user})
 
-def applicantdetails_list(request):
-    applicants = Applicant.objects.all()
-    return render(request, 'applicantdetails_list.html', {'applicants': applicants})
+def applicant_list(request):
+    applicant = Applicant.objects.all()
+    return render(request, 'applicant_list.html', {'applicants': applicant})
 
-def applicantdetails_detail(request, pk):
-    detail = get_object_or_404(Applicant, pk=pk)
-    return render(request, 'applicantdetails_detail.html', {'detail': detail})
+def applicant_detail(request, pk):
+    applicant = get_object_or_404(Applicant, pk=pk)
+    return render(request, 'applicant_detail.html', {'detail': applicant})
 
-def applicantdetails_create(request):
+def applicant_update(request, pk):
+    applicant = get_object_or_404(Applicant, pk=pk)
     if request.method == 'POST':
-        form = ApplicantForm(request.POST)
+        form = ApplicantForm(request.POST, instance=applicant)
         if form.is_valid():
             form.save()
-            return redirect('applicantdetails_list')
+            return redirect('applicant_list')
     else:
-        form = ApplicantForm()
-    return render(request, 'applicantdetails_form.html', {'form': form})
+        form = ApplicantForm(instance=applicant)
+    return render(request, 'applicant_form.html', {'form': form})
 
-def applicantdetails_update(request, pk):
-    detail = get_object_or_404(Applicant, pk=pk)
+def applicant_delete(request, pk):
+    applicant = get_object_or_404(Applicant, pk=pk)
     if request.method == 'POST':
-        form = ApplicantForm(request.POST, instance=detail)
-        if form.is_valid():
-            form.save()
-            return redirect('applicantdetails_list')
-    else:
-        form = ApplicantForm(instance=detail)
-    return render(request, 'applicantdetails_form.html', {'form': form})
+        applicant.delete()
+        return redirect('applicant_list')
+    return render(request, 'applicant_confirm_delete.html', {'applicant': applicant})
 
-def applicantdetails_delete(request, pk):
-    detail = get_object_or_404(Applicant, pk=pk)
-    if request.method == 'POST':
-        detail.delete()
-        return redirect('applicantdetails_list')
-    return render(request, 'applicantdetails_confirm_delete.html', {'detail': detail})
-
-# Honors
 def honors_list(request):
     honors = Honors.objects.all()
     return render(request, 'honors_list.html', {'honors': honors})
@@ -263,41 +252,37 @@ def honors_delete(request, pk):
         return redirect('honors_list')
     return render(request, 'honors_confirm_delete.html', {'honor': honor})
 
-def sibling_list(request):
-    siblings = Sibling.objects.all()
-    return render(request, 'sibling_list.html', {'siblings': siblings})
+def siblings_list(request):
+    siblings = Siblings.objects.all()
+    return render(request, 'siblings_list.html', {'siblings': siblings})
 
-def sibling_detail(request, pk):
-    sibling = get_object_or_404(Sibling, pk=pk)
-    return render(request, 'sibling_detail.html', {'sibling': sibling})
-
-def sibling_create(request):
+def siblings_create(request):
     if request.method == 'POST':
-        form = SiblingForm(request.POST)
+        form = SiblingsForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('sibling_list')
+            return redirect('siblings_list')
     else:
-        form = SiblingForm()
-    return render(request, 'sibling_form.html', {'form': form})
+        form = SiblingsForm()
+    return render(request, 'siblings_form.html', {'form': form})
 
-def sibling_update(request, pk):
-    sibling = get_object_or_404(Sibling, pk=pk)
+def siblings_update(request, pk):
+    sibling = get_object_or_404(Siblings, pk=pk)
     if request.method == 'POST':
-        form = SiblingForm(request.POST, instance=sibling)
+        form = SiblingsForm(request.POST, instance=sibling)
         if form.is_valid():
             form.save()
-            return redirect('sibling_list')
+            return redirect('siblings_list')
     else:
-        form = SiblingForm(instance=sibling)
-    return render(request, 'sibling_form.html', {'form': form})
+        form = SiblingsForm(instance=sibling)
+    return render(request, 'siblings_form.html', {'form': form})
 
-def sibling_delete(request, pk):
-    sibling = get_object_or_404(Sibling, pk=pk)
+def siblings_delete(request, pk):
+    sibling = get_object_or_404(Siblings, pk=pk)
     if request.method == 'POST':
         sibling.delete()
-        return redirect('sibling_list')
-    return render(request, 'sibling_confirm_delete.html', {'sibling': sibling})
+        return redirect('siblings_list')
+    return render(request, 'siblings_confirm_delete.html', {'siblings': siblings})
 
 def manage(request):
     return render(request, 'manage.html')

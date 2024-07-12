@@ -1,8 +1,9 @@
 from django import forms
 from django.forms import modelformset_factory
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import User, Applicant, Honors, Sibling
+from .models import User, Applicant, Honors, Siblings
 from datetime import date
+from crispy_forms.helper import FormHelper
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
@@ -16,6 +17,12 @@ class UserLoginForm(AuthenticationForm):
 
 class SQLQueryForm(forms.Form):
     query = forms.CharField(widget=forms.Textarea)
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['email', 'is_staff', 'is_superuser']
+
 
 class ApplicantForm(forms.ModelForm):
     SEX_CHOICES = [
@@ -137,12 +144,12 @@ class HonorsForm(forms.ModelForm):
             })
             field.required = True
 
-class SiblingForm(forms.ModelForm):
+class SiblingsForm(forms.ModelForm):
     class Meta:
-        model = Sibling
+        model = Siblings
         fields = ['sibling_name', 'sibling_scholarship', 'sibling_age', 'sibling_course_year']
         labels = {
-            'sibling_name': 'Sibling Name',
+            'sibling_name': 'Siblings Name',
             'sibling_scholarship': 'Scholarship',
             'sibling_age': 'Age',
             'sibling_course_year': 'Course and Year'
@@ -156,4 +163,4 @@ class SiblingForm(forms.ModelForm):
             })
 
 HonorsFormSet = modelformset_factory(Honors, form=HonorsForm, extra=1)
-SiblingFormSet = modelformset_factory(Sibling, form=SiblingForm, can_delete=True, extra=1)
+SiblingsFormSet = modelformset_factory(Siblings, form=SiblingsForm, can_delete=True, extra=1)

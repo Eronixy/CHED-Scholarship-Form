@@ -26,16 +26,16 @@
   <div class="container">
       <h1>Select a relation:</h1>
       <p>Current Date and Time: <span id="datetime"></span></p>
-      <a href="{% url 'query' %}">
+      <a href="{% url 'user_list' %}">
         <button type="button">User</button>
       </a>
-      <a href="{% url 'manage' %}">
+      <a href="{% url 'applicant_list' %}">
         <button type="button">Applicant Details</button>
       </a>
-      <a href="{% url 'logout' %}">
+      <a href="{% url 'honors_list' %}">
         <button type="button">Honors</button>
       </a>
-      <a href="{% url 'logout' %}">
+      <a href="{% url 'siblings_list' %}">
         <button type="button">Sibling</button>
       </a>
   </div>
