@@ -146,6 +146,7 @@
   }
 
   button {
+    margin-bottom: 20px;
     font-size: 20px;
     font-weight: 600;
     background-color: var(--blue5);

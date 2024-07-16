@@ -73,7 +73,7 @@ class Applicant(models.Model):
     highschool_name = models.CharField(max_length=45)
     highschool_address = models.CharField(max_length=100)
     highest_year = models.CharField(max_length=10, validators=[validate_highest_year])
-    gwa = models.DecimalField(max_digits=4, decimal_places=2)
+    gwa = models.DecimalField(max_digits=4, decimal_places=2, validators=[MaxValueValidator(99.99), MinValueValidator(90.00)])
     graduation_date = models.DateField()
     father_status = models.CharField(max_length=1, validators=[validate_parent_status])
     father_name = models.CharField(max_length=80)
@@ -104,7 +104,7 @@ class Siblings(models.Model):
     applicant = models.ForeignKey(Applicant, on_delete=models.CASCADE)
     sibling_name = models.CharField(max_length=50, null=True, blank=True)
     sibling_scholarship = models.CharField(max_length=45, null=True, blank=True) 
-    sibling_age = models.PositiveIntegerField(validators=[MaxValueValidator(999), MinValueValidator(1)])
+    sibling_age = models.PositiveIntegerField(validators=[MaxValueValidator(999), MinValueValidator(1)], null=True, blank=True)
     sibling_course_year = models.CharField(max_length=45, null=True, blank=True) 
     
 def validate_choice(value, valid_choices):

@@ -8,6 +8,11 @@
   <link rel="stylesheet" href="{% static 'home_styles.css' %}">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    .spaced-text {
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
   <header id="header">
@@ -24,9 +29,10 @@
     </nav>
   </header>
   <div class="container">
-    <div class="login">
-      <h2>Welcome, {{ username }}</h2>
-      <h3>Today is: <span id="datetime"></span></h3>
+    <div class="login" style="background-color: #5cb85c;">
+      <h2 style="text-align: center;" class="spaced-text">Registration Successful! </h2>
+      <h3 style="text-align: center;" class="spaced-text">Today is: <span id="datetime"></span></h3>
+      <h3 style="text-align: center;" class="spaced-text">Please check your email for further announcements.</h3>
       <a href="{% url 'logout' %}">
         <button type="button">Logout</button>
       </a>

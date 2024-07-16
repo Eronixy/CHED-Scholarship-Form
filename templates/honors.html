@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Applicant Details</title>
+    <title>Honors Details</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="{% static 'applicant.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
@@ -29,7 +29,8 @@
       <form method="POST" id="honors-form" action="{% url 'honors' %}">
         {% csrf_token %}
         <div class="form-section" style="display:inline;">
-          <h2>Fill up the following information to continue.</h2>
+          <h2 style="text-align:center;">Fill up the following information to continue.</h2>
+          <h3 style="text-align:center;">At least one honor is required.</h3>
           <div class="honors-container">
             {{ honors_formset.management_form }}
             <div id="honors-formset-container">

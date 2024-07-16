@@ -61,43 +61,40 @@
         </div>
     </nav>
 </header>
-<body class="bg-light ">
+<body class="bg-light">
 <div class="container bg-dark p-5 my-5 mx-auto rounded shadow-sm">
     <h1 class="text-white text-center">Are you sure you want to delete the following entry?</h1>
     <div class="table-responsive max-height rounded">
-        <div class="table-responsive max-height rounded">
-            <table class="table table-primary table-striped table-bordered w-100">
-                <thead>
-                  <tr>
-                      <th>sibling_id</th>
-                      <th>sibling_name</th>
-                      <th>sibling_scholarship</th>
-                      <th>sibling_age</th>
-                      <th>sibling_course_year</th>
-                      <th>applicant_id</th>
-                  </tr>
-              </thead>
-              <tbody id="siblingsTableBody">
-                      <tr>
-                          <td>{{ sibling.sibling_id }}</td>
-                          <td>{{ sibling.sibling_name }}</td>
-                          <td>{{ sibling.sibling_scholarship }}</td>
-                          <td>{{ sibling.sibling_age }}</td>
-                          <td>{{ sibling.sibling_course_year }}</td>
-                          <td>{{ sibling.applicant_id }}</td>
-                      </tr>
-              </tbody>
-          </table>
-          </div>
-        <div class="d-flex justify-content-center mt-3">
-            <form method="post">
-                {% csrf_token %}
-                <button type="submit" class="btn-lg btn-danger text-center">Confirm</button>
-                <a href="{% url 'honors_list' %}"><button type="button" class="btn-lg btn-primary mx-auto">Cancel</button></a>
-            </form>
-        </div>
-      </div>
+        <table class="table table-primary table-striped table-bordered w-100">
+            <thead>
+                <tr>
+                    <th>sibling_id</th>
+                    <th>sibling_name</th>
+                    <th>sibling_scholarship</th>
+                    <th>sibling_age</th>
+                    <th>sibling_course_year</th>
+                    <th>applicant_id</th>
+                </tr>
+            </thead>
+            <tbody id="siblingsTableBody">
+                <tr>
+                    <td>{{ siblings.sibling_id }}</td>
+                    <td>{{ siblings.sibling_name }}</td>
+                    <td>{{ siblings.sibling_scholarship }}</td>
+                    <td>{{ siblings.sibling_age }}</td>
+                    <td>{{ siblings.sibling_course_year }}</td>
+                    <td>{{ siblings.applicant_id }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn-lg btn-danger text-center">Confirm</button>
+            <a href="{% url 'siblings_list' %}"><button type="button" class="btn-lg btn-primary mx-auto">Cancel</button></a>
+        </form>
+    </div>
 </div>
 </body>
 </html>
-
