@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin About</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+</head>
+<header id="header" class="p-3 bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark rounded-sm">
+        <div class="container-fluid">
+            <h2 class="logo m-0 text-white">Admin Mode</h2>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto nav-pills">
+                    <li class="nav-item p-2">
+                        <a class="nav-link text-white p-2" href="{% url 'user_list' %}">User</a>
+                    </li>
+                    <li class="nav-item p-2">
+                        <a class="nav-link text-white" href="{% url 'applicant_list' %}">Applicant</a>
+                    </li>
+                    <li class="nav-item p-2">
+                        <a class="nav-link text-white" href="{% url 'honors_list' %}">Honors</a>
+                    </li>
+                    <li class="nav-item p-2">
+                        <a class="nav-link text-white" href="{% url 'siblings_list' %}">Siblings</a>
+                    </li>
+                    <li class="nav-item p-2">
+                        <a class="nav-link text-white" href="{% url 'home' %}">Exit</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<body class="bg-light">
+    <div class="container-sm bg-info rounded mx-auto my-5 p-5 shadow-lg">
+        <h1 class="text-white text-center">Meet Cupid!</h1>
+        <img src="{%static 'images/cupid.jpg'%}" class="img-fluid rounded shadow-lg img-thumbnail" alt="cupid the catto">
+    </div>
+</body>
+</html>

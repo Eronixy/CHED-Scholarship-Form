@@ -1,0 +1,214 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Problem List</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <style>
+        #header-img {
+            max-width: 50px;
+        }
+        .max-height {
+            max-height: 70vh;
+            overflow: auto;
+        }
+        ::-webkit-scrollbar {
+          width: 10px;
+          height: 10px;
+        }
+        ::-webkit-scrollbar-track {
+          background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+          background: #888;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+          background: #555;
+        }
+        .card {
+            margin-bottom: 50px;
+        }
+        
+    </style>
+</head>
+<header id="header" class="p-3 bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark rounded-sm">
+        <div class="container-fluid">
+            <img id="header-img" class="logo mr-3 w-25" src="{% static 'images/logo.png' %}" alt="CHED Ambassadors">
+            <h2 class="logo m-0 text-white">Admin Mode</h2>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto nav-pills">
+                    <li class="nav-item p-2">
+                        <a class="nav-link text-white p-2" href="{% url 'user_list' %}">User</a>
+                    </li>
+                    <li class="nav-item p-2">
+                        <a class="nav-link text-white" href="{% url 'applicant_list' %}">Applicant</a>
+                    </li>
+                    <li class="nav-item p-2">
+                        <a class="nav-link text-white" href="{% url 'honors_list' %}">Honors</a>
+                    </li>
+                    <li class="nav-item p-2">
+                        <a class="nav-link text-white" href="{% url 'siblings_list' %}">Siblings</a>
+                    </li>
+                    <li class="nav-item p-2">
+                        <a class="nav-link text-white" href="{% url 'home' %}">Exit</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<body class="bg-light">
+    <div class="container bg-light px-5 pt-2">
+        <h1>SQL Problems</h1>
+        <div class="card">
+            <div class="card-header">
+                CHED wants to identify and rank applicants who have a General Weighted Average (GWA) of 90 or above, prefer courses in CCIS as their first-choice course, and have chosen the Polytechnic University of the Philippines (PUP) as their school of enrollment.
+            </div>
+            <div class="card-body">
+                <pre>SELECT applicant_name, school_enroll, first_choice, gwa
+FROM ched.isko_applicant
+WHERE gwa >= 90 AND first_choice IN ('BS in Computer Science', 'BS in Information Technology') AND school_enroll = 'Polytechnic University of the Philippines'
+ORDER BY gwa DESC;</pre>
+            </div>
+            <a class="btn btn-lg btn-success" href="{% url 'problem1' %}">Run</a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                CHED wants to identify applicants whose mother or father is still living, have more than two children in their family, and rank them based on their parent's gross income in descending order.
+            </div>
+            <div class="card-body">
+                <pre>SELECT applicant_name, mother_name, mother_status, father_name, father_status, no_of_children, gross_income
+FROM ched.isko_applicant
+WHERE (mother_status = 'L' OR father_status = 'L') AND no_of_children > 2
+ORDER BY gross_income DESC;</pre>
+            </div>
+            <a class="btn btn-lg btn-success" href="{% url 'problem2' %}">Run</a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                CHED wants to list all applicants with a General Weighted Average of 90 or above, whose first choice is not related to CCIS courses, are enrolled in the Polytechnic University of the Philippines (PUP), and who lives outside Manila. Rank them based on their GWA in descending order.
+            </div>
+            <div class="card-body">
+                <pre>SELECT applicant_name, home_address, school_enroll, first_choice, gwa
+FROM ched.isko_applicant
+WHERE gwa >= 90 AND first_choice NOT IN ('BS in Computer Science', 'BS in Information Technology') AND school_enroll = 'Polytechnic University of the Philippines' AND home_address NOT LIKE '%manila%'
+ORDER BY gwa DESC;</pre>
+            </div>
+            <a class="btn btn-lg btn-success" href="{% url 'problem3' %}">Run</a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                CHED wants to count how many applicants were born Filipino and are living in Manila, as well as how many applicants were born non-Filipino and are living outside Manila. The management wants to include only applicants whose individual GWA is greater than 90 and whose group's average grade is greater than 92. They want to know the average grade for these applicants and display their nationality. Sort the average grade in descending order.
+            </div>
+            <div class="card-body">
+                <pre>SELECT citizenship, COUNT(applicant_id) AS ApplicantCount, AVG(gwa) AS AverageGrade
+FROM ched.isko_applicant
+WHERE ((citizenship = 'Filipino' AND home_address LIKE '%Manila%') OR (citizenship NOT LIKE 'Filipino' AND home_address NOT LIKE '%Manila%')) AND gwa > 90
+GROUP BY citizenship
+HAVING AVG(gwa) > 92
+ORDER BY AVG(gwa) DESC;</pre>
+            </div>
+            <a class="btn btn-lg btn-success" href="{% url 'problem4' %}">Run</a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                CHED wants a report that provides insights into the demographic and economic characteristics of applicants enrolled at the Polytechnic University of the Philippines (PUP). The report should focus on applicants aged between 18 and 25 years. The report should include the sex of the applicants, the count of applicants for each sex, the average gross income for each sex, and the average general weighted average (GWA) for each sex. The results should be sorted in descending order based on the average gross income.
+            </div>
+            <div class="card-body">
+                <pre>SELECT sex, COUNT(applicant_id) AS applicant_count, AVG(gross_income) AS avg_gross_income, AVG(gwa) AS avg_gwa
+FROM ched.isko_applicant
+WHERE age BETWEEN 18 AND 25 AND school_enroll = 'Polytechnic University of the Philippines'
+GROUP BY sex
+ORDER BY avg_gross_income DESC;</pre>
+            </div>
+            <a class="btn btn-lg btn-success" href="{% url 'problem5' %}">Run</a>
+        </div>
+
+
+        <div class="card">
+            <div class="card-header">
+                CHED wants a report listing applicants who received more than one achievement between April and June 2024. The report should include the applicants' IDs, the honors received, and the total number of honors. The results should be sorted in descending order based on the total number of honors.
+            </div>
+            <div class="card-body">
+                <pre>SELECT applicant_id, GROUP_CONCAT(honors_received ORDER BY honors_date SEPARATOR ', ') AS honors_received, COUNT(honors_id) AS total_honors
+FROM ched.isko_honors
+WHERE honors_date BETWEEN '2024-04-01' AND '2024-06-30'
+GROUP BY applicant_id
+HAVING COUNT(honors_id) > 1
+ORDER BY total_honors DESC;</pre>
+            </div>
+            <a class="btn btn-lg btn-success" href="{% url 'problem6' %}">Run</a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                CHED wants to identify schools where the average grade of applicants exceeds 95. They are particularly interested in schools where applicants have a grade higher than the overall average and are either Filipino citizens or have a family gross income exceeding 500,000. The management wants to retrieve the current school of enrollment, calculate the average grade, and count the number of applicants who meet these criteria. Sort the results by average grade in descending order, then by school name in ascending order.
+            </div>
+            <div class="card-body">
+                <pre>SELECT school_enroll, AVG(gwa) AS Average_Grade, COUNT(*) AS Applicant_Count
+FROM ched.isko_applicant
+WHERE gwa > (SELECT AVG(gwa) FROM ched.isko_applicant) AND (citizenship = 'Filipino' OR gross_income > 500000)
+GROUP BY school_enroll
+HAVING AVG(gwa) > 95
+ORDER BY AVG(gwa) DESC, school_enroll ASC;</pre>
+            </div>
+            <a class="btn btn-lg btn-success" href="{% url 'problem7' %}">Run</a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                CHED requires a report that lists applicants along with their high school information, total honors received, and the name of the sibling who has received the DOST Scholarship. The report should include the applicant's ID, name, citizenship, high school name, average grade (GWA), current school, and only include applicants who have received more than one honor and have a sibling with a DOST Scholarship. The results should be grouped by applicant ID and sorted in descending order based on the total number of honors.
+            </div>
+            <div class="card-body">
+                <pre>SELECT A.applicant_id, A.applicant_name, A.citizenship, A.highschool_name, A.gwa, A.school_enroll, COUNT(H.honors_id) AS Total_honors, S.sibling_name AS Sibling_with_DOST_scholarship
+FROM ched.isko_applicant AS A, ched.isko_honors AS H, ched.isko_siblings AS S
+WHERE A.applicant_id = H.applicant_id AND A.applicant_id = S.applicant_id AND S.sibling_scholarship = 'DOST Scholarship'
+GROUP BY A.applicant_id, A.applicant_name, A.citizenship, A.highschool_name, A.gwa, A.school_enroll, S.sibling_name
+HAVING COUNT(H.honors_id) > 1
+ORDER BY Total_honors DESC;</pre>
+            </div>
+            <a class="btn btn-lg btn-success" href="{% url 'problem8' %}">Run</a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                CHED wants to have a report of applicants that received more than one award including the applicant's ID, the applicant’s name, the number of honors received, the sibling's name and type of scholarship received. The applicant should be a Filipino citizen, and have at least 91 GWA, and the sibling's scholarship should not be under the DOST scholarship. Rank the applicants according to their Applicant ID number in ascending order.
+            </div>
+            <div class="card-body">
+                <pre>SELECT a.applicant_id, a.applicant_name, COUNT(h.honors_received)AS no_of_honors_received, s.sibling_name, s.sibling_scholarship
+FROM ched.isko_applicant AS a, ched.isko_honors AS h,  ched.isko_siblings AS s
+WHERE (a.applicant_id = h.applicant_id AND a.applicant_id = s.applicant_id) AND a.citizenship = 'Filipino' AND a.gwa >= 91 AND s.sibling_scholarship NOT LIKE '%DOST%'
+GROUP BY a.applicant_id, a.applicant_name, s.sibling_name, s.sibling_scholarship
+HAVING COUNT(h.honors_id) > 1
+ORDER BY a.applicant_id ASC;</pre>
+            </div>
+            <a class="btn btn-lg btn-success" href="{% url 'problem9' %}">Run</a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                CHED wants to know the list of Filipino applicants who graduated in 2024 with more than one honor, showing their applicant ID, name, the total number of siblings with a scholarship who studies a Bachelor of Science degree, the total number of honors received, and the ages of the oldest and youngest siblings with a scholarship. The results should be sorted in ascending order based on the applicant's ID.
+            </div>
+            <div class="card-body">
+                <pre>SELECT a.applicant_id, a.applicant_name, COUNT(DISTINCT s.sibling_id) AS total_siblings, COUNT(DISTINCT h.honors_id) AS total_honors, MAX(s.sibling_age) AS oldest_sibling_age, MIN(s.sibling_age) AS youngest_sibling_age
+FROM ched.isko_applicant AS a, ched.isko_honors AS h, ched.isko_siblings AS s
+WHERE a.applicant_id = h.applicant_id AND a.applicant_id = s.applicant_id AND s.sibling_course_year LIKE '%BS%' AND a.citizenship = 'Filipino' AND YEAR(a.graduation_date) = 2024
+GROUP BY a.applicant_id
+HAVING total_honors > 1
+ORDER BY a.applicant_id ASC;</pre>
+            </div>
+            <a class="btn btn-lg btn-success" href="{% url 'problem10' %}">Run</a>
+        </div>
+
+    </div>
+</body>
+</html>
